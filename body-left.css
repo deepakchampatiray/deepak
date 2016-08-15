@@ -1,0 +1,118 @@
+div.resume-body-left {
+  float: left;
+  width : 28%;
+  height : 100%;
+}
+
+div.resume-body-left div.badge {
+  height : 20px;
+  margin-top : 20px;
+}
+
+div.resume-body-left div.resume-attrs {
+  height: calc(81% - 20px);
+}
+
+div.badge div.badge-left {
+  background-color: white;
+  float : left;
+  width : 10%;
+  height : 100%;
+}
+div.badge div.badge-center {
+  background-color: white;
+  float : left;
+  width : 40px;
+  border-radius: 20px;
+  height : 40px;
+  left: -5px;
+  top: -10px;
+  position: relative;
+  text-align: center;
+}
+div.badge div.badge-center img {
+  text-align: center;
+  padding-top: 10px;
+}
+div.badge div.badge-right {
+  background-color: white;
+  float : left;
+  width : 45%;
+  height : 100%;
+  position: relative;
+  left: -10px;
+  font-weight: bold;
+  border-left: 20px solid white;
+  color : #58585A;
+  /*padding-right: 10px;*/
+}
+div.badge div.badge-right-triangle {
+  background-color: white;
+  float : left;
+  width : 0px;
+  height: 0px;
+  position: relative;
+  border-top: 20px solid white;
+  border-right: 20px solid #58585A;
+  left: -10px;
+}
+
+ul.attr-list {
+  list-style: none;
+  margin: 25px 30px 30px 20px;
+  color : white;
+}
+
+ul.attr-list div.percentage {
+  background-color: #828284;
+  width : 100%;
+  height : 10px;
+  margin: 10px 0px;
+}
+ul.attr-list div.percentage>div{
+  background-color: #FEF200;
+  height : 10px;
+}
+
+div.resume-body-left div.contact {
+  position: relative;
+  height : 18%;
+  bottom: 0px;
+  background-color: #FFCA08;
+}
+
+div.contact div.contact-header {
+  width: 50%;
+  margin: 0px auto;
+  text-align: center;
+  background-color: #58585A;
+  border-radius: 15px;
+  position: relative;
+  top: -12px;
+  height: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+div.contact div.contact-content {
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.5em;
+}
+
+div.qr-code {
+  width : 2cm;
+  height : 2cm;
+  margin : 0 auto;
+}
+
+div.qr-code img {
+  width : 100%;
+  height : 100%;
+}
+
+div.social-handles img {
+  margin-top : 5px;
+  height : 40px;
+  width : 40px;
+}

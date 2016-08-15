@@ -1,0 +1,11 @@
+@import url("./body-left.css");
+@import url("./body-right.css");
+
+div.resume-body {
+  height: 75%;
+  /*background-color: white;*/
+}
+
+div.attribution {
+  text-align: center;
+}
