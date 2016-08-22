@@ -5,11 +5,29 @@
   <title>Deepak Champatiray - Contacts</title>
   <style>
     div.social-handles {
-      margin-top : 20%;
+      margin-top : 10%;
       text-align: center;
     }
-    div.social-handles img {
-      width : 18%;
+    div.social-handles span {
+      text-align: center;
+    }
+
+    @media screen and (min-width: 400px) {
+      div.social-handles img {
+        width : 30%;
+      }
+      div.social-handles {
+        margin-top : 20%;
+      }
+    }
+
+    @media screen and (min-width: 1000px) {
+      div.social-handles img {
+        width : 20%;
+      }
+      div.social-handles {
+        margin-top : 10px;
+      }
     }
 
     a {
@@ -42,6 +60,11 @@
     <span class="download">
       <a href="./Deepak Champatiray - Résumé.pdf">
         <img src="../download.svg" alt="Download Icon">
+      </a>
+    </span>
+    <span class="phone">
+      <a href="tel:+91-844-600-1164">
+        <img src="../phone.svg" alt="Phone Icon">
       </a>
     </span>
   </div>
