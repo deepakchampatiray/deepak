@@ -8,4 +8,9 @@ div.resume-body {
 
 div.attribution {
   text-align: center;
+  font-size: small;
+}
+
+div.attribution a:hover {
+  text-decoration: underline;
 }
