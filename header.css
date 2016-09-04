@@ -1,6 +1,10 @@
 div.header {
   border-bottom: 6px solid #FFCA08;
   height : 25%;
+  background-image: url('safe-sa.svg');
+  background-repeat: no-repeat;
+  background-size: 70px;
+  background-position: 95% 13%;
 }
 
 div.header > div.photo {
