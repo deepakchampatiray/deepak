@@ -70,3 +70,38 @@
   </div>
 </body>
 </html>
+<!--
+WITH 
+  SUB AS (
+    select
+      EV.name, 
+      --dbms_lob.substr( EVV.value , 1000, 1 ), 
+      MAX(EVV.EFFECTIVE_ON) AS "MAX_DT"
+    from 
+      LSW_EPV_VAR_VALUE EVV,
+      LSW_EPV_VAR EV,
+      LSW_SNAPSHOT S
+    WHERE
+      S.NAME = '1102017v2_VRS' AND
+      --EV.NAME = 'business1' AND
+      EVV.SNAPSHOT_ID = S.SNAPSHOT_ID AND
+      EVV.EPV_VAR_ID = EV.EPV_VAR_ID AND
+      EVV.EFFECTIVE_ON <= SYSDATE
+    GROUP BY EV.NAME
+)
+SELECT DISTINCT
+    EV.name, 
+    dbms_lob.substr( EVV.value , 1000, 1 ), 
+    SUB."MAX_DT"
+  from 
+    LSW_EPV_VAR_VALUE EVV,
+    LSW_EPV_VAR EV,
+    LSW_SNAPSHOT S,
+    SUB
+  WHERE
+    S.NAME = '1102017v2_VRS' AND
+    SUB.MAX_DT = EVV.EFFECTIVE_ON AND
+    SUB.NAME = EV.NAME AND
+    EVV.SNAPSHOT_ID = S.SNAPSHOT_ID AND
+    EVV.EPV_VAR_ID = EV.EPV_VAR_ID ;
+-->
