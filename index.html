@@ -2,62 +2,321 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>deepak.champatiray.com - Arriving soon</title>
+  <title>Deepak Champatiray - Résumé</title>
+  <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Open+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="./header.css" charset="utf-8">
+  <link rel="stylesheet" href="./body.css">
   <style>
-    * {
-      margin : 0;
-      padding: 0;
+    @page {
+      margin : 0.0cm;
     }
-    .main-content {
-      font-size: 1.5em;
-      font-family: cursive;
-      display: grid;
-      height : 100vh;
+
+    *, div, body {
+      margin: 0px;
+      padding : 0px;
+      font-family: 'Open Sans', sans-serif;
     }
-    div.text-prelude {
-      margin: auto 20pt;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
-    div.photo {
-      display: inline-block;
+    div.resume_paper {
+      border : 0px solid black;
+      margin : 10px auto;
+      width : 8.5in;
+      height : 11in;
+      background-color: #58585A;
+      font-size: 0.9em;
+      -webkit-box-shadow: 4px 4px 4px 0px rgba(88,88,90,0.61);
+      -moz-box-shadow: 2px 2px 2px 0px rgba(88,88,90,0.61);
+      box-shadow: 4px 4px 4px 0px rgba(88,88,90,0.61);
     }
-    div.photo img {
-      border-radius: 20px;
-      height : 400px;
-      border : 2px solid rgba(0,0,0,.85);
-      float: left;
-      margin : 15pt;
-      line-height: 1.8em;
-      shape-outside: circle();
-    }
-    @supports (shape-outside: circle()) {
-      div.photo img {
-        border-radius: 50%;
+
+    @media screen {
+      .print-only {
+        display: none;
       }
     }
-    div.desc-text {
-      padding-top : 1em;
-      color : rgba(50,50,50, 1);
-      text-align: justify;
+
+    @media print {
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .screen-only {
+        display : none;
+      }
+      body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: #58585A
+      }
+      div.badge div.badge-right-triangle {
+        border-right : 20px solid white;
+      }
+      /*div.resume_paper {
+        border : 1px solid black;
+        margin : 0px auto;
+        width : 100%;
+        height : 98%;
+      }*/
     }
   </style>
 </head>
 <body>
-  <div class="main-content">
-    <div class="text-prelude">
+
+  <div class="resume_paper" id="resume_paper">
+    <div class="header">
       <div class="photo">
-        <img src="./deepak.jpeg" alt="Photo of Deepak champatiray">
-        <div class="desc-text">
-Taking command of an operation or project, then guiding it to new performance levels, is my greatest strength.
-
-My experience encompasses project management, strategic planning, resource utilization, revenue growth, and cost reduction. My ability to analyze needs and create unique solutions designed to yield a profitable outcome has proven to be one of my greatest assets.
-
-Credited with significantly impacting bottom-line profitability wherever I have worked, I excel at streamlining less-than-efficient procedures to boost productivity and sales. Proactive management of crucial external relationships allowed me to increase revenue by 23% in one year. I also negotiated exclusive relationships in a key market segment, expanding the company's share of that segment by 66%.
-
-I know that my proven leadership skills, strong commitment to high ethical and professional standards, and flexibility in devising proactive responses to changing socioeconomic conditions allows me to make a significant contribution to any team.
+        <div class="frame">
+          <div class="frame-border">
+          </div>
         </div>
+      </div>
+      <div class="about">
+        <div class="name-top">Deepak Champatiray</div>
+        <div class="header-role">
+          IBM BPM Technical Architect, Certified SAFe<sup>®</sup> Agilist
+        </div>
+        <div class="divider"></div>
+        <!-- <div class="about-me">
+          About Me
+        </div> -->
+        <div class="about-text">
+          I'm a self-motivated software engineer whose passion lies in designing functional and beautiful user-experience.
+          With eight years of hand-on experience on IBM BPM/Lombardi platform, I've worked on all facets of software development life-cycle.
+          A insatiable urge towards learning and perfection makes me an asset to any team.
+          The technical and business acumen that I have acquired with over 5 years of client-side experience would prove invaluable to any company.
+        </div>
+      </div>
+    </div>
+    <div class="resume-body">
+      <div class="resume-body-left">
+        <div class="resume-attrs">
+            <div class="skills">
+              <div class="badge">
+                <div class="badge-left"></div>
+                <div class="badge-center">
+                  <img src="./gears.png" alt="skills icon" width="20px" />
+                </div>
+                <div class="badge-right">
+                  Skill
+                </div>
+                <div class="badge-right-triangle"></div>
+              </div>
+              <ul class="attr-list">
+                <li>
+                  IBM BPM / Lombardi
+                  <div class="percentage">
+                    <div title="90%" style="width:90%"></div>
+                  </div>
+                </li>
+                <li>
+                  HTML5, CSS3 and Javascript
+                  <div class="percentage">
+                    <div title="80%" style="width:80%"></div>
+                  </div>
+                </li>
+                <li>
+                  Java and J2EE
+                  <div class="percentage">
+                    <div title="60%" style="width:60%"></div>
+                  </div>
+                </li>
+                <li>
+                  Oracle RDBMS
+                  <div class="percentage">
+                    <div title="80%" style="width:80%"></div>
+                  </div>
+                </li>
+                <li>
+                  AngularJS, jQuery, Dojo and Bootstrap
+                  <div class="percentage">
+                    <div title="60%" style="width:60%"></div>
+                  </div>
+                </li>
+                <li>
+                  XML, XSL and XPath
+                  <div class="percentage">
+                    <div title="80%" style="width:80%"></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="languages">
+              <div class="badge">
+                <div class="badge-left"></div>
+                <div class="badge-center">
+                  <img src="./gears.png" alt="skills icon" width="20px" />
+                </div>
+                <div class="badge-right">
+                  Languages
+                </div>
+                <div class="badge-right-triangle"></div>
+              </div>
+              <ul class="attr-list">
+                <li>
+                  English
+                  <div class="percentage">
+                    <div style="width:100%" title="Confident with all aspects of the language."></div>
+                  </div>
+                </li>
+                <li>
+                  Hindi
+                  <div class="percentage">
+                    <div style="width:70%" title="Can Speak and Read but not too confident with writing."></div>
+                  </div>
+                </li>
+                <li>
+                  Odia / Oriya
+                  <div class="percentage">
+                    <div style="width:80%" title="Can Speak and Read but not too confident with writing."></div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="contact">
+            <div class="contact-header">
+              Contact
+            </div>
+            <div class="contact-content">
+              <span class="screen-only">
+                +91 (844) 600-1164
+                <br/>
+              </span>
+              <a href="mailto:deepak@champatiray.com">deepak@champatiray.com</a>
+              <!-- <br/>
+              Apt: 123, St : 456, City: Gotham -->
+              <div class="qr-code print-only">
+                <img src="qr-deepak.champatiray.com-print.svg" alt="QR Code to deepak.champatiray.com" />
+              </div>
+              <div class="social-handles screen-only">
+                <span class="linkedin">
+                  <a href="https://linkedin.com/in/deepak-champatiray">
+                    <img src="in.svg" alt="Linkedin Profile Icon" />
+                  </a>
+                </span>
+                <span class="facebook">
+                  <a href="https://facebook.com/deepak.champatiray">
+                    <img src="fb.svg" alt="Facebook icon" />
+                  </a>
+                </span>
+                <span class="email">
+                  <a href="mailto:deepak@champatiray.com">
+                    <img src="email.svg" alt="Email Icon">
+                  </a>
+                </span>
+                <span class="website">
+                  <a href="http://deepak.champatiray.com">
+                    <img src="website.svg" alt="Website Icon">
+                  </a>
+                </span>
+              </div>
+            </br/>
+            </br/>
+            </div>
+          </div>
 
+      </div>
+      <div class="resume-body-right">
+        <div class="timeline">
+          <div class="experience">
+            <img src="./experience.svg" alt="Experience Icon">
+            <div class="year expecience-2016-tilldate">2016 - today</div>
+            <div class="year expecience-2011-2016">2011 - 2016</div>
+            <div class="year expecience-2010-2016">2010 - 2011</div>
+            <div class="year expecience-2008-2010">2008 - 2010</div>
+          </div>
+          <div class="recognition">
+            <img src="./recognition.svg" alt="Experience Icon">
+          </div>
+          <div class="education">
+            <img src="./education.svg" alt="Experience Icon">
+            <div class="year education-2004-2008">2004 - 2008</div>
+            <div class="year education-2002-2004">2002 - 2004</div>
+          </div>
+        </div>
+        <div class="details">
+          <div class="experience">
+            <h3>Professional Experience</h3>
+            <div class="year expecience-2016-tilldate">
+              <div class="job-title">Technical Architect - Pune (Major United States Bank)</div>
+              <div class="technology">IBM BPM (7.5, 8.5), Oracle, AngularJS, Bootstrap, REST, Agile-Scrum</div>
+              <div class="job-details">
+                <ul>
+                  <li>Design technology and migration roadmap.
+                  <li>Design scalable and high-performing applications.
+                  <li>Technical and techno-functional mentoring.
+                  <li>Respond to client RFPs and COE interaction.
+                </ul>
+              </div>
+            </div>
+            <div class="year expecience-2011-2016">
+              <div class="job-title">Technical Lead - Cleveland, USA (Major United States Bank)</div>
+              <div class="technology">IBM BPM (6.2, 7.5), Oracle, Dojo, jQuery, SOAP, XSL</div>
+              <div class="job-details">
+                <ul>
+                  <li>Lead application data/code migration from BPM 6.2 to 7.5.
+                  <li>Own shared frameworks and toolkits.
+                  <li>Participate in code reviews and establish best practices.
+                  <li>Organize customer requirement gathering sessions.
+                </ul>
+              </div>
+            </div>
+            <div class="year expecience-2010-2016">
+              <div class="job-title">Senior Developer - London (UK Financial Regulator)</div>
+              <div class="technology">Lombardi (6.2), Oracle, Javascript, XSL/XSL-FO, Webservices</div>
+              <div class="job-details">
+                <ul>
+                  <li>Own timely product integration, delivery and deployment.
+                  <li>Create POC and conduct technology evaluations.
+                  <li>Provide on-site support and coordinate defect resolution.
+                  <li>Mentor and train junior developers.
+                </ul>
+              </div>
+            </div>
+            <div class="year expecience-2008-2010">
+              <div class="job-title">Junior Developer - Mumbai (UK Financial Regulator)</div>
+              <div class="technology">Lombardi (6.2), Oracle, Javascript, XSL/XSL-FO, Webservices</div>
+              <div class="job-details">
+                <ul>
+                  <li>Create and deliver small application modules.
+                  <li>Coordinate with on-site team to collect requirements.
+                  <li>Timely defect resolution and delivery.
+                  <li>Create knowledge articles, user manuals and release notes.
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="recognition">
+            <h3>Awards / Recognition</h3>
+            <div class="job-details awards">
+              <ul>
+                <li>Top Performer of TCS Initial Learning Program.
+                <li>Top Performer Computer Science and Engg, batch 2008.
+                <li>Accomplished State level athlete (Short distance sprint).
+                <li>TCS Technical Excellence award for outstanding product design and development.
+              </ul>
+            </div>
+          </div>
+          <div class="education">
+            <h3>Formal Education</h3>
+            <div class="year eduacation-2004-2008">
+              <div class="degree">B.Tech(Computer Science and Engg.) - <span class="marks">8.8 CGPA</span></div>
+              <div class="college">College of Engineering and Technology, BPUT Odisha</div>
+            </div>
+            <div class="year eduacation-2002-2004">
+              <div class="degree">10+2 Science - <span class="marks">91%</span></div>
+              <div class="college">College of Basic Science and Humanities, OUAT Odisha</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <div class="attribution screen-only">Design Inspiration <a target="_blank" href="http://www.freepik.com/free-vector/programmer-resume-template_840427.htm">Freepick.com</a>. Last Updated: 21st June 2017</div>
 </body>
 </html>
