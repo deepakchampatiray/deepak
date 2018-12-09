@@ -16,7 +16,7 @@ div.experience div.year, div.education div.year {
   text-align: center;
   font-weight: bold;
   color: #444;
-  height : 21%;
+  height : 18%;
 }
 div.education div.year {
   height : 30%;
@@ -30,11 +30,11 @@ div.timeline img {
 }
 
 div.experience {
-  height : 60%;
+  height : 75%;
 }
 
 div.recognition {
-  height : 17%;
+  /* height : 17%; */
 }
 
 div.education {
