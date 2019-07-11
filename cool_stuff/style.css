@@ -1,0 +1,29 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin: 0;
+    padding: 0;
+}
+
+a.card {
+    padding: 1em;
+    border: 3px solid grey;
+    border-radius: 0px;
+    height: 5em;
+    font-size: 2em;
+    background-color: rgba(18, 212, 93, 0.699);
+    text-decoration: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+}
+
+a.card:hover {
+    color: #333;
+    background-color: #00B5FF;
+}

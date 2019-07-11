@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    background-color: #DCF5FF;
+    height: 100vh;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    .inner {
+        background-color: rgba(18, 212, 93, 0.699);
+        padding: 1em;
+        border-radius: 10px;
+        width: 250px;
+        clip-path: circle(10% at 90% 25%);
+        transition: all 2s ease-out;
+        cursor: pointer;
+
+        span {
+            color: white;
+            float: right;
+            margin-right: 4%;
+        }
+
+        &:hover {
+            clip-path: circle(150% at 90% 25%);
+            background-color: #00B5FF;
+            
+            span {
+                transition: all 0.2s;
+                color: #00B5FF;
+                display: none;
+            }
+        }
+
+        h1 {
+            color: white;
+            margin: 0;
+        }
+        p {
+            color: white;
+            font-size: 0.8rem;
+        }
+    }
