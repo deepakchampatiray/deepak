@@ -1,0 +1,35 @@
+body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body h1 {
+  margin: 2em;
+  text-align: center;
+}
+
+body .container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(20rem, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+}
+
+body .card {
+  border: 1px solid grey;
+  padding: 10px;
+  background-color: #ddd;
+  margin: 10px;
+}
+
+body .card .title {
+  font-weight: bold;
+  font-size: 1.6em;
+  width: 100%;
+}
+
+body .card img {
+  width: 100%;
+}
+/*# sourceMappingURL=style.css.map */
