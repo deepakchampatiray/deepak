@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform Migration — Architecture Diagrams</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #07080e;
+    --ibm-blue:   #0f62fe;
+    --ibm-teal:   #009d9a;
+    --ibm-purple: #8a3ffc;
+    --ibm-green:  #198038;
+    --ibm-orange: #ff832b;
+    --ibm-red:    #da1e28;
+    --ibm-gray:   #6f6f6f;
+    --np-blue:    #38bdf8;
+    --np-teal:    #34d399;
+    --np-purple:  #a78bfa;
+    --np-green:   #4ade80;
+    --np-orange:  #fb923c;
+    --np-red:     #f87171;
+    --np-gray:    #94a3b8;
+    --gray50:     #6b7280;
+    --white:      #f1f5f9;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: #cbd5e1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 20px 48px;
+  }
+
+  /* ════════════════════════════════════════
+     SLIDE — strict 1280 × 720, no header/legend
+  ════════════════════════════════════════ */
+  .slide {
+    width: 1280px;
+    height: 720px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px 12px;
+    position: relative;
+  }
+  .slide-ibm { background: #080c18; border: 1px solid rgba(15,98,254,0.22); }
+  .slide-np  { background: #060e0c; border: 1px solid rgba(52,211,153,0.18); }
+  .slide::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  }
+  .slide-ibm::before { background: linear-gradient(90deg,var(--ibm-blue),var(--ibm-teal) 50%,var(--ibm-purple)); }
+  .slide-np::before  { background: linear-gradient(90deg,var(--np-teal),var(--np-blue) 60%,var(--np-purple)); }
+
+  /* ── DIAGRAM fills entire slide ── */
+  .diagram { flex:1; display:flex; flex-direction:column; gap:4px; min-height:0; }
+
+  /* ── LAYER rows ── */
+  .layer       { display:flex; gap:4px; align-items:stretch; flex:10; min-height:0; }
+  .layer-tall  { flex:13; }   /* Runtime — has sub-blocks */
+  .layer-short { flex:8;  }   /* Monitoring (single block, wide) */
+
+  /* ── SIDEBAR ── */
+  .layer-sidebar {
+    width: 20px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    font-size: 10px; font-weight: 600; font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: rgba(255,255,255,0.52);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 3px;
+  }
+
+  /* ── BLOCKS row ── */
+  .blocks { display:flex; gap:4px; flex:1; min-height:0; }
+
+  /* ── BASE BLOCK ── */
+  .block {
+    flex: 1;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 7px 9px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s, transform 0.15s;
+    min-width: 0;
+  }
+  .block:hover { transform: translateY(-1px); }
+  .block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+
+  /* IBM themes */
+  .ibm .block-blue   { background:#060d1f; } .ibm .block-blue::before   { background:var(--ibm-blue); }   .ibm .block-blue:hover   { border-color:rgba(15,98,254,0.4); }
+  .ibm .block-teal   { background:#041312; } .ibm .block-teal::before   { background:var(--ibm-teal); }   .ibm .block-teal:hover   { border-color:rgba(0,157,154,0.4); }
+  .ibm .block-purple { background:#0a0716; } .ibm .block-purple::before { background:var(--ibm-purple); } .ibm .block-purple:hover { border-color:rgba(138,63,252,0.4); }
+  .ibm .block-green  { background:#050d07; } .ibm .block-green::before  { background:var(--ibm-green); }  .ibm .block-green:hover  { border-color:rgba(25,128,56,0.4); }
+  .ibm .block-orange { background:#130b04; } .ibm .block-orange::before { background:var(--ibm-orange); } .ibm .block-orange:hover { border-color:rgba(255,131,43,0.4); }
+  .ibm .block-red    { background:#110306; } .ibm .block-red::before    { background:var(--ibm-red); }    .ibm .block-red:hover    { border-color:rgba(218,30,40,0.4); }
+  .ibm .block-gray   { background:#0c0c10; } .ibm .block-gray::before   { background:var(--ibm-gray); }   .ibm .block-gray:hover   { border-color:rgba(111,111,111,0.5); }
+
+  /* NP themes */
+  .np .block-blue   { background:#060f1c; } .np .block-blue::before   { background:var(--np-blue); }   .np .block-blue:hover   { border-color:rgba(56,189,248,0.4); }
+  .np .block-teal   { background:#04150e; } .np .block-teal::before   { background:var(--np-teal); }   .np .block-teal:hover   { border-color:rgba(52,211,153,0.4); }
+  .np .block-purple { background:#0c0a1c; } .np .block-purple::before { background:var(--np-purple); } .np .block-purple:hover { border-color:rgba(167,139,250,0.4); }
+  .np .block-green  { background:#050f07; } .np .block-green::before  { background:var(--np-green); }  .np .block-green:hover  { border-color:rgba(74,222,128,0.4); }
+  .np .block-orange { background:#140c04; } .np .block-orange::before { background:var(--np-orange); } .np .block-orange:hover { border-color:rgba(251,146,60,0.4); }
+  .np .block-red    { background:#13060a; } .np .block-red::before    { background:var(--np-red); }    .np .block-red:hover    { border-color:rgba(248,113,113,0.4); }
+  .np .block-gray   { background:#090d12; } .np .block-gray::before   { background:var(--np-gray); }   .np .block-gray:hover   { border-color:rgba(148,163,184,0.4); }
+
+  /* Hero glow */
+  .np .block-hero { box-shadow: 0 0 0 1px rgba(52,211,153,0.22), inset 0 0 18px rgba(52,211,153,0.04); }
+
+  /* ── BLOCK TEXT ── */
+  .block-label {
+    font-size: 12px; font-family: 'IBM Plex Mono', monospace; font-weight: 500;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0;
+  }
+  .block-name {
+    font-size: 16px; font-weight: 700; color: #e2e8f0;
+    line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-bottom: 2px; flex-shrink: 0;
+  }
+  .block-desc {
+    font-size: 12px; color: #78889d; font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.35; margin-bottom: 4px; flex-shrink: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  /* ── CHIPS ── */
+  .caps { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; }
+  .cap {
+    font-size: 9px; font-family: 'IBM Plex Mono', monospace;
+    padding: 1px 5px; border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.09);
+    color: #b1c3dc; background: rgba(255,255,255,0.08);
+    white-space: nowrap; line-height: 1.5;
+  }
+
+  /* Hero badge */
+  .hero-badge {
+    display: inline-block; font-size: 6px; font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+    padding: 1px 4px; border-radius: 2px; margin-left: 5px;
+    background: rgba(52,211,153,0.15); color: var(--np-teal);
+    border: 1px solid rgba(52,211,153,0.35); vertical-align: middle;
+  }
+
+  /* ── SUB-BLOCKS (inside Runtime) ── */
+  .sub-row { display: flex; gap: 4px; margin-top: 5px; flex: 1; min-height: 0; }
+  .sub-block {
+    flex: 1; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 3px; padding: 5px 7px;
+    display: flex; flex-direction: column; min-height: 0;
+  }
+  .sub-block-name {
+    font-size: 14px; font-weight: 700; color: #94a3b8;
+    margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0;
+  }
+  .sub-block-desc {
+    font-size: 12px; color: #5f708b; font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.3; margin-bottom: 4px; flex-shrink: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .sub-block .caps { margin-top: auto; }
+
+  /* ── Separator between slides ── */
+  .sep { display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .sep-line  { width:1px; height:14px; background:rgba(52,211,153,0.3); }
+  .sep-arrow { font-size:12px; color:rgba(52,211,153,0.45); margin-top:-4px; }
+  .sep-label { font-size:6.5px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.14); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 1  —  IBM BPM 8.5
+══════════════════════════════════════════════ -->
+<div class="slide slide-ibm ibm">
+  <div class="diagram">
+
+    <!-- Presentation -->
+    <div class="layer">
+      <div class="layer-sidebar">Presentation</div>
+      <div class="blocks">
+        <div class="block block-blue">
+          <div class="block-label">Process Portal</div>
+          <div class="block-name">IBM Process Portal</div>
+          <div class="block-desc">Work dashboard for task owners and process participants</div>
+          <div class="caps">
+            <span class="cap">Task Inbox</span><span class="cap">Process Launchpad</span>
+            <span class="cap">Team Performance</span><span class="cap">Saved Searches</span>
+          </div>
+        </div>
+        <div class="block block-blue">
+          <div class="block-label">Authoring IDE</div>
+          <div class="block-name">IBM Process Designer</div>
+          <div class="block-desc">Browser-based BPMN modeler, Coach IDE and playback environment</div>
+          <div class="caps">
+            <span class="cap">BPMN 2.0 Modeler</span><span class="cap">Heritage Coaches</span>
+            <span class="cap">Coach Views</span><span class="cap">Playback 0–5</span>
+          </div>
+        </div>
+        <div class="block block-blue">
+          <div class="block-label">UI Framework</div>
+          <div class="block-name">Responsive Coach Framework</div>
+          <div class="block-desc">AJAX-based, mobile-ready UI toolkit for process UIs</div>
+          <div class="caps">
+            <span class="cap">Bootstrap Layout</span><span class="cap">Managed Assets</span>
+            <span class="cap">Event Wiring</span><span class="cap">Custom Views</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Runtime -->
+    <div class="layer layer-tall">
+      <div class="layer-sidebar">Runtime</div>
+      <div class="blocks">
+        <div class="block block-teal">
+          <div class="block-label">BPMN Execution Engine</div>
+          <div class="block-name">Workflow Execution Engine</div>
+          <div class="block-desc">BPMN 2.0-compliant runtime — executes Business Process Definitions, manages tokens and state</div>
+          <div class="sub-row">
+            <div class="sub-block">
+              <div class="sub-block-name">Process Lifecycle</div>
+              <div class="sub-block-desc">Full instance state from creation to completion</div>
+              <div class="caps">
+                <span class="cap">Instantiate</span><span class="cap">Suspend</span>
+                <span class="cap">Terminate</span><span class="cap">Complete</span>
+              </div>
+            </div>
+            <div class="sub-block">
+              <div class="sub-block-name">Task Assignment</div>
+              <div class="sub-block-desc">Routes tasks via lane bindings and routing policies</div>
+              <div class="caps">
+                <span class="cap">Lanes</span><span class="cap">Routing Policies</span>
+                <span class="cap">Escalation</span><span class="cap">Ad-Hoc</span>
+              </div>
+            </div>
+            <div class="sub-block">
+              <div class="sub-block-name">Events &amp; Timers</div>
+              <div class="sub-block-desc">All BPMN event types and undercover agent triggers</div>
+              <div class="caps">
+                <span class="cap">Start Events</span><span class="cap">Boundary Events</span>
+                <span class="cap">UCA Triggers</span><span class="cap">Intermediate Events</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decisions -->
+  <!--  
+    <div class="layer">
+      <div class="layer-sidebar">Decisions</div>
+      <div class="blocks">
+        <div class="block block-purple">
+          <div class="block-label">Gateway Engine</div>
+          <div class="block-name">Decision Gateways</div>
+          <div class="block-desc">Inline BPMN decision logic evaluated within process flow</div>
+          <div class="caps">
+            <span class="cap">Exclusive XOR</span><span class="cap">Inclusive OR</span>
+            <span class="cap">Complex Merge</span><span class="cap">Event-Based</span>
+          </div>
+        </div>
+        <div class="block block-purple">
+          <div class="block-label">KPI Tracking</div>
+          <div class="block-name">Process Tracking &amp; KPI Groups</div>
+          <div class="block-desc">Business measure definitions surfaced in dashboards</div>
+          <div class="caps">
+            <span class="cap">Tracked Fields</span><span class="cap">Aggregate KPIs</span>
+            <span class="cap">Trend Reports</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  -->
+
+
+    <!-- Integration -->
+    <div class="layer">
+      <div class="layer-sidebar">Integration</div>
+      <div class="blocks">
+        <div class="block block-green">
+          <div class="block-label">WebService / REST</div>
+          <div class="block-name">Web Services &amp; REST APIs</div>
+          <div class="block-desc">Inbound and outbound connectivity protocol for external systems</div>
+          <div class="caps">
+            <span class="cap">SOAP / WSDL</span><span class="cap">REST Service Tasks</span>
+            <span class="cap">HTTP Connectors</span><span class="cap">Java APIs</span>
+          </div>
+        </div>
+        <!-- <div class="block block-green">
+          <div class="block-label">Human Task</div>
+          <div class="block-name">Heritage Human Task Manager</div>
+          <div class="block-desc">Backward-compatible WPS human task and BPEL coordination</div>
+          <div class="caps">
+            <span class="cap">BPEL Task API</span><span class="cap">Escalation Chains</span>
+            <span class="cap">Substitution</span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Monitoring -->
+<!--   
+    <div class="layer layer-short">
+      <div class="layer-sidebar">Monitoring</div>
+      <div class="blocks">
+        <div class="block block-orange">
+          <div class="block-label">Performance Optimizer</div>
+          <div class="block-name">Process Performance Optimizer</div>
+          <div class="block-desc">Mines execution data to surface bottlenecks and improvement targets</div>
+          <div class="caps">
+            <span class="cap">Bottleneck ID</span><span class="cap">Cycle Time</span>
+            <span class="cap">SLA Compliance</span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Governance -->
+    <div class="layer">
+      <div class="layer-sidebar">Governance</div>
+      <div class="blocks">
+        <div class="block block-red">
+          <div class="block-label">Repository</div>
+          <div class="block-name">Process Center</div>
+          <div class="block-desc">Central hub for all process assets, versioning and snapshot governance</div>
+          <div class="caps">
+            <span class="cap">Process Apps</span><span class="cap">Toolkits</span>
+            <span class="cap">Snapshots</span><span class="cap">Branch / Tag</span>
+          </div>
+        </div>
+        <div class="block block-red">
+          <div class="block-label">Admin Console</div>
+          <div class="block-name">Process Admin Console</div>
+          <div class="block-desc">Operational control over running instances and system health</div>
+          <div class="caps">
+            <span class="cap">Instance Mgmt</span><span class="cap">Suspend / Retry</span>
+            <span class="cap">Failed Events</span><span class="cap">Scheduler</span>
+          </div>
+        </div>
+        <div class="block block-red">
+          <div class="block-label">Security</div>
+          <div class="block-name">Security &amp; Identity</div>
+          <div class="block-desc">RBAC integrated with enterprise LDAP</div>
+          <div class="caps">
+            <span class="cap">LDAP / AD</span><span class="cap">JAAS Auth</span>
+            <span class="cap">Team Bindings</span>
+          </div>
+        </div>
+        <div class="block block-red">
+          <div class="block-label">Deployment</div>
+          <div class="block-name">Deployment Manager</div>
+          <div class="block-desc">WebSphere topology, clustering, and snapshot promotion pipeline</div>
+          <div class="caps">
+            <span class="cap">Dmgr / Node Agent</span><span class="cap">Clustering</span>
+            <span class="cap">Snapshot Activate</span>
+            <span class="cap">Instance Migrate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infrastructure -->
+    <div class="layer layer-short">
+      <div class="layer-sidebar">Infra</div>
+      <div class="blocks">
+        <div class="block block-gray">
+          <div class="block-label">App Server</div>
+          <div class="block-name">WebSphere AS ND</div>
+          <div class="block-desc">J2EE runtime with clustering and messaging engine</div>
+          <div class="caps">
+            <span class="cap">J2EE Runtime</span><span class="cap">Clusters</span><span class="cap">Messaging Engine</span>
+          </div>
+        </div>
+        <div class="block block-gray">
+          <div class="block-label">Database</div>
+          <div class="block-name">Oracle Database</div>
+          <div class="block-desc">Process DB, performance data warehouse and BPM schemas</div>
+          <div class="caps">
+            <span class="cap">Process DB</span><span class="cap">Performance DW</span><span class="cap">BPM Schemas</span>
+          </div>
+        </div>
+        <div class="block block-gray">
+          <div class="block-label">Messaging</div>
+          <div class="block-name">IBM MQ / SIBus</div>
+          <div class="block-desc">Service integration bus, JMS messaging and MQ Series</div>
+          <div class="caps">
+            <span class="cap">JMS</span><span class="cap">SIBus</span><span class="cap">MQ Series</span>
+          </div>
+        </div>
+        <div class="block block-gray">
+          <div class="block-label">Directory</div>
+          <div class="block-name">LDAP / Active Directory</div>
+          <div class="block-desc">Enterprise user repository and IBM Security Directory</div>
+          <div class="caps">
+            <span class="cap">User Repository</span><span class="cap">TDS</span><span class="cap">Security Directory</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /diagram -->
+</div><!-- /slide 1 -->
+
+
+<!-- ── Separator ── -->
+<div class="sep">
+  <div class="sep-label">Replaced by</div>
+  <div class="sep-line"></div>
+  <div class="sep-arrow">▼</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 2  —  New Platform
+══════════════════════════════════════════════ -->
+<div class="slide slide-np np">
+  <div class="diagram">
+
+    <!-- Presentation -->
+    <div class="layer">
+      <div class="layer-sidebar">Presentation</div>
+      <div class="blocks">
+        <div class="block block-blue">
+          <div class="block-label">Shell MFE</div>
+          <div class="block-name">React Process Shell</div>
+          <div class="block-desc">App shell composing common and domain MFEs via Module Federation</div>
+          <div class="caps">
+            <span class="cap">Task Inbox MFE</span><span class="cap">Process Launchpad</span>
+            <span class="cap">Team Dashboard</span><span class="cap">Unified Search</span>
+          </div>
+        </div>
+        <div class="block block-blue">
+          <div class="block-label">Process Modeler</div>
+          <div class="block-name">bpmn.io embedded into Leap-Workflow</div>
+          <div class="block-desc">Open-source BPMN modeler with JSON output for Process designs.</div>
+          <div class="caps">
+            <span class="cap">bpmn-js Modeler</span><span class="cap">leap-generator</span>
+          </div>
+        </div>
+        <div class="block block-blue">
+          <div class="block-label">Project Sprcific MFE</div>
+          <div class="block-name">React based Compliance Process UI</div>
+          <div class="block-desc">UI components and pages meant for Compliance Process.</div>
+          <div class="caps">
+            <span class="cap">Storybook</span>
+            <span class="cap">Event Bus</span><span class="cap">Shared Context</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Runtime -->
+    <div class="layer layer-tall">
+      <div class="layer-sidebar">Runtime</div>
+      <div class="blocks">
+        <div class="block block-teal block-hero">
+          <div class="block-label">Custom BPMN Engine — Node.js <span class="hero-badge">Hero Component</span></div>
+          <div class="block-name">LEAP Workflow Engine</div>
+          <div class="block-desc">Custom-built BPMN 2.0 runtime — parses definitions, manages token state machines, drives task routing and choreography events</div>
+          <div class="sub-row">
+            <div class="sub-block">
+              <div class="sub-block-name">Instance Lifecycle API</div>
+              <div class="sub-block-desc">Domain aggregate root managing full instance state transitions</div>
+              <div class="caps">
+                <span class="cap">Instantiate</span><span class="cap">Suspend</span>
+                <span class="cap">Retry</span><span class="cap">Domain Events</span>
+              </div>
+            </div>
+            <div class="sub-block">
+              <div class="sub-block-name">Task Service</div>
+              <div class="sub-block-desc">Human task lifecycle as a dedicated bounded context</div>
+              <div class="caps">
+                <span class="cap">Task Aggregate</span><span class="cap">Role Resolver</span>
+                <span class="cap">SLA Timer</span><span class="cap">Claim / Release</span>
+              </div>
+            </div>
+            <div class="sub-block">
+              <div class="sub-block-name">Event &amp; Timer Service</div>
+              <div class="sub-block-desc">Durable timers and boundary event handling via node-schedule</div>
+              <div class="caps">
+                <span class="cap">Timers</span><span class="cap">Boundary Events</span>
+                <span class="cap">Kafka Publisher</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decisions -->
+    <!-- <div class="layer">
+      <div class="layer-sidebar">Decisions</div>
+      <div class="blocks">
+        <div class="block block-purple">
+          <div class="block-label">Gateway Evaluator</div>
+          <div class="block-name">BPMN Gateway Evaluator</div>
+          <div class="block-desc">Safe JS expression sandbox evaluates gateway conditions against process variables</div>
+          <div class="caps">
+            <span class="cap">isolated-vm sandbox</span><span class="cap">XOR / OR / Complex</span>
+            <span class="cap">Event-Based</span><span class="cap">Expression DSL</span>
+          </div>
+        </div>
+        <div class="block block-purple">
+          <div class="block-label">KPI Projections</div>
+          <div class="block-name">Analytics Service</div>
+          <div class="block-desc">Consumes domain event stream to build KPI read-model projections</div>
+          <div class="caps">
+            <span class="cap">Event Stream Consumer</span><span class="cap">Read-Model Projections</span>
+            <span class="cap">KPI REST API</span><span class="cap">Trend Aggregations</span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Integration -->
+    <div class="layer">
+      <div class="layer-sidebar">Integration</div>
+      <div class="blocks">
+        <div class="block block-green">
+          <div class="block-label">Integration Microservices</div>
+          <div class="block-name">Node.js Integration Services</div>
+          <div class="block-desc">Per-system bounded contexts wrapping REST and SOAP with retry and circuit-breaking</div>
+          <div class="caps">
+            <span class="cap">Axios / node-soap</span><span class="cap">Circuit Breaker</span>
+            <span class="cap">Idempotency Keys</span><span class="cap">Perf Telemetry</span>
+          </div>
+        </div>
+        <!-- <div class="block block-green">
+          <div class="block-label">Human Task</div>
+          <div class="block-name">Task Service — Node.js</div>
+          <div class="block-desc">Human task lifecycle reimplemented as a domain microservice</div>
+          <div class="caps">
+            <span class="cap">Task Aggregate</span><span class="cap">Escalation Policy</span>
+            <span class="cap">Notification Service</span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Monitoring -->
+    <!-- <div class="layer layer-short">
+      <div class="layer-sidebar">Monitoring</div>
+      <div class="blocks">
+        <div class="block block-orange">
+          <div class="block-label">Ops Dashboard + Analytics</div>
+          <div class="block-name">Ops Dashboard MFE + Analytics Service</div>
+          <div class="block-desc">Event-sourced step timing surfaced in a React dashboard — cycle time, SLA breach and bottleneck heatmap</div>
+          <div class="caps">
+            <span class="cap">OpenTelemetry Traces</span><span class="cap">Cycle Time</span>
+            <span class="cap">SLA Alerts</span><span class="cap">Recharts / D3</span>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Governance -->
+    <div class="layer">
+      <div class="layer-sidebar">Governance</div>
+      <div class="blocks">
+        <div class="block block-red">
+          <div class="block-label">Repository</div>
+          <div class="block-name">Git + CI/CD + Process Registry</div>
+          <div class="block-desc">Source-controlled definitions with versioned snapshot promotion pipeline</div>
+          <div class="caps">
+            <span class="cap">Git Mono/Polyrepo</span><span class="cap">GitHub Actions</span>
+            <span class="cap">Semantic Versioning</span><span class="cap">Registry API</span>
+          </div>
+        </div>
+        <div class="block block-red">
+          <div class="block-label">Admin MFE</div>
+          <div class="block-name">Admin MFE + Engine Admin API</div>
+          <div class="block-desc">React admin shell consuming engine management REST endpoints</div>
+          <div class="caps">
+            <span class="cap">Instance Inspect</span><span class="cap">Suspend / Retry</span>
+            <span class="cap">Dead-letter Queue</span><span class="cap">BullMQ Scheduler</span>
+          </div>
+        </div>
+        <div class="block block-red">
+          <div class="block-label">Identity</div>
+          <div class="block-name">OIDC + API Gateway</div>
+          <div class="block-desc">JWT-based RBAC across all microservices with LDAP federation</div>
+          <div class="caps">
+            <span class="cap">OAuth2 / OIDC</span><span class="cap">JWT RS256</span>
+            <span class="cap">RBAC Middleware</span><span class="cap">Role Claims</span>
+          </div>
+        </div>
+        <div class="block block-red">
+          <div class="block-label">Deployment</div>
+          <div class="block-name">Openshift + CI/CD Pipeline</div>
+          <div class="block-desc">Container-native deployment with rolling and blue-green promotion</div>
+          <div class="caps">
+            <span class="cap">Docker</span><span class="cap">Blue-Green Deploy</span>
+            <!-- <span class="cap">HPA Autoscaling</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infrastructure -->
+    <div class="layer layer-short">
+      <div class="layer-sidebar">Infra</div>
+      <div class="blocks">
+        <div class="block block-gray">
+          <div class="block-label">Runtime</div>
+          <div class="block-name">LEAP Node.js LTS</div>
+          <div class="block-desc">Per-service Node.js process with K8s replica sets and HPA</div>
+          <div class="caps">
+            <span class="cap">Node.js LTS</span><span class="cap">ReplicaSets</span><span class="cap">Worker Threads</span>
+          </div>
+        </div>
+        <div class="block block-gray">
+          <div class="block-label">Database</div>
+          <div class="block-name">Oracle (retained)</div>
+          <div class="block-desc">Schema-per-domain with oracledb driver and Flyway migrations</div>
+          <div class="caps">
+            <span class="cap">Schema-per-Domain</span>>
+          </div>
+        </div>
+        <div class="block block-gray">
+          <div class="block-label">Messaging</div>
+          <div class="block-name">Apache Kafka</div>
+          <div class="block-desc">Choreography backbone for domain events and dead-letter topics</div>
+          <div class="caps">
+            <span class="cap">Domain Events</span><span class="cap">Dead-letter Topics</span><span class="cap">kafkajs</span>
+          </div>
+        </div>
+        <div class="block block-gray">
+          <div class="block-label">Directory</div>
+          <div class="block-name">LDAP / AD (retained)</div>
+          <div class="block-desc">Federated via Keycloak OIDC with group-to-role claim mapping</div>
+          <div class="caps">
+            <span class="cap">Keycloak Federation</span><span class="cap">Group → Role Mapping</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /diagram -->
+</div><!-- /slide 2 -->
+
+</body>
+</html>
